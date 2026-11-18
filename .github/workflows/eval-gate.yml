@@ -31,9 +31,14 @@ jobs:
       - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with: {python-version: "3.13", activate-environment: true, enable-cache: true, cache-dependency-glob: "src/requirements*.txt"}
       - run: uv pip install -r requirements.txt -r requirements-lab9.txt
-      - run: python -m lab9.smoke
-      - run: python -m pytest -q -m student -o addopts= -k "lab9 and not advanced"
-      - run: python -m lab9.evalset --check
+      - name: Check Core environment
+        run: python -m lab9.smoke
+      - name: Run Core student tests
+        run: python -m pytest -q -m student -o addopts= -k "lab9 and not advanced"
+      - name: Validate eval set annotations
+        run: python -m lab9.evalset --check
+      - name: Verify M3 detection and false alarm rates
+        run: python -m lab9.mutation --detect --spec "$EVAL_SPEC"
       - name: Evaluate and gate the PR swarm
         shell: bash
         run: |
