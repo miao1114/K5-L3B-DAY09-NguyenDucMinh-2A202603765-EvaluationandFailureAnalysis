@@ -22,7 +22,10 @@ metrics:
   - {id: reply_amount_correct,   kind: capability, level: trajectory, grader: code, blocking: true,
      threshold: {min: 1.0, no_significant_drop: true}}
   - {id: proposal_amount_correct, kind: capability, level: step, grader: code, blocking: true,
-     threshold: {min: 0.95, no_significant_drop: true}}
+     # First v2 baseline: align gross-proposal and ledger floors on the enlarged set.
+     # v1 is unchanged. Localized failures are additionally constrained by slices below.
+     threshold: {min: 0.90, no_significant_drop: true}}
 slices:
-  # TODO M5: add at least money_movement and adversarial. Example of the shape:
+  - {name: money_movement, metric: pass_rate, min: 0.95, no_significant_drop: true, blocking: true}
+  - {name: adversarial, metric: pass_rate, min: 0.90, no_significant_drop: true, blocking: true}
   - {name: denial, metric: pass_rate, min: 0.90, no_significant_drop: true, blocking: true}

@@ -64,6 +64,33 @@ jobs:
             exit 1
           fi
 
+  # M5 is reviewable independently; the original complete M5-M7 job below stays strict.
+  eval-gate-m5:
+    needs: eval-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env: {PYTHONUTF8: "1"}
+    defaults: {run: {working-directory: src}}
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - id: has
+        run: "test -f reports/baseline_v2.json && echo v2=1 >> \"$GITHUB_OUTPUT\" || echo skip, no baseline_v2"
+      - if: steps.has.outputs.v2
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with: {python-version: "3.13", activate-environment: true, enable-cache: true, cache-dependency-glob: "src/requirements*.txt"}
+      - if: steps.has.outputs.v2
+        run: uv pip install -r requirements.txt -r requirements-lab9.txt
+      - if: steps.has.outputs.v2
+        name: Test M5 slices and v2 coverage
+        run: python -m pytest -q -m student -o addopts= -k "m5 or slice_check"
+      - if: steps.has.outputs.v2
+        name: Validate v2 eval set
+        run: python -m lab9.evalset --v2 --check
+      - if: steps.has.outputs.v2
+        name: Verify committed baseline and M5 variant gates
+        run: python -m scripts.verify_m5 --check-committed
+
   # Advanced/Expert (M5-M7). Runs only once the student commits reports/baseline_v2.json, so a
   # Core-only submission stays green. Exit 1 = a survived mutant or a false alarm.
   eval-gate-v2:
