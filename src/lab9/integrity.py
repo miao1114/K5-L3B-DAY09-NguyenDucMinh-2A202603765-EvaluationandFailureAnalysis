@@ -4,6 +4,7 @@ from __future__ import annotations
 from math import isclose, isfinite
 from numbers import Real
 from pathlib import Path
+import re
 
 from lab9 import evalset
 from lab9.eval import aggregate
@@ -18,6 +19,12 @@ def _ratchet(spec: dict, base_spec: dict) -> list[str]:
     if spec.get("eval_set_version") != base_spec.get("eval_set_version"):
         return []
     problems = []
+    old_k, old_errors = _pass_k_values(base_spec)
+    new_k, new_errors = _pass_k_values(spec)
+    if old_errors or new_errors:
+        problems.append("ratchet: invalid pass_k configuration")
+    elif not set(old_k).issubset(new_k):
+        problems.append("ratchet: removed pass_k estimates")
     for group, identity in (("metrics", "id"), ("slices", "name")):
         old = {entry[identity]: entry for entry in base_spec.get(group, [])}
         new = {entry[identity]: entry for entry in spec.get(group, [])}
@@ -49,12 +56,23 @@ def _ratchet(spec: dict, base_spec: dict) -> list[str]:
     return problems
 
 
+def _pass_k_values(spec: dict) -> tuple[list[int], list[str]]:
+    values = spec.get("pass_k", [])
+    if not isinstance(values, list) or any(type(k) is not int or k < 1 for k in values):
+        return [], ["pass_k must be a list of positive integers"]
+    if len(values) != len(set(values)):
+        return [], ["pass_k must not contain duplicates"]
+    return values, []
+
+
 def check_reports(pr: dict, base: dict, spec: dict, base_spec: dict | None = None) -> list[str]:
     problems = []
     if not isinstance(pr, dict) or not isinstance(base, dict):
         return ["report must be an object"]
     if base_spec is not None:
         problems.extend(_ratchet(spec, base_spec))
+    configured_k, k_errors = _pass_k_values(spec)
+    problems.extend(k_errors)
     rules = spec.get("metrics", [])
     metric_ids = [m["id"] for m in rules if m["id"] in GRADERS]
     required = {m["id"] for m in rules}
@@ -147,7 +165,17 @@ def check_reports(pr: dict, base: dict, spec: dict, base_spec: dict | None = Non
                 problems.append(f"{name}: nonfinite/missing aggregate metric {mid}")
         if not row_errors and rows:
             normalized = [{**row, "cost": row.get("cost", 0.0)} for row in rows]
-            recomputed = aggregate(normalized, metric_ids, k_values=spec.get("pass_k", []))
+            # Do not let a PR disable recomputation by deleting pass_k. Every declared
+            # or reported reliability score must be derived independently from rows.
+            checked_k = set(configured_k)
+            for mid in required | metrics.keys():
+                if mid.startswith(("pass_at_", "pass_hat_")):
+                    match = re.fullmatch(r"pass_(?:at|hat)_([1-9][0-9]*)", mid)
+                    if match is None:
+                        problems.append(f"{name}: invalid reliability metric {mid}")
+                    else:
+                        checked_k.add(int(match[1]))
+            recomputed = aggregate(normalized, metric_ids, k_values=sorted(checked_k))
             for mid, expected in recomputed.items():
                 if mid not in metrics:
                     continue

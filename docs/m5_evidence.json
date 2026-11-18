@@ -30,7 +30,7 @@
         "  pass_hat_5             0.8929   {\"min\": 0.85}                                                         ok",
         "  cost_per_success       50.8077  {\"max_increase\": 0.1}                                                 ok",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
-        "  proposal_amount_correct 0.9786   {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
+        "  proposal_amount_correct 0.9786   {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
         "  slice:money_movement/pass_rate           1.0      Δ +0.000 CI [+0.000, +0.000]       ok",
         "  slice:adversarial/pass_rate              0.9714285714285714 Δ +0.000 CI [+0.000, +0.000]       ok",
         "  slice:denial/pass_rate                   0.9454545454545454 Δ +0.000 CI [+0.000, +0.000]       ok"
@@ -48,7 +48,7 @@
         "  pass_hat_5             1.0      {\"min\": 0.85}                                                         ok",
         "  cost_per_success       49.5043  {\"max_increase\": 0.1}                                                 ok",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
-        "  proposal_amount_correct 1.0      {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
+        "  proposal_amount_correct 1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
         "  slice:money_movement/pass_rate           1.0      Δ +0.000 CI [+0.000, +0.000]       ok",
         "  slice:adversarial/pass_rate              1.0      Δ +0.029 CI [+0.000, +0.071]       ok",
         "  slice:denial/pass_rate                   1.0      Δ +0.055 CI [+0.018, +0.109]       ok"
@@ -66,7 +66,7 @@
         "  pass_hat_5             1.0      {\"min\": 0.85}                                                         ok",
         "  cost_per_success       57.7186  {\"max_increase\": 0.1}                                                 warn",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
-        "  proposal_amount_correct 1.0      {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
+        "  proposal_amount_correct 1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
         "  slice:money_movement/pass_rate           1.0      Δ +0.000 CI [+0.000, +0.000]       ok",
         "  slice:adversarial/pass_rate              1.0      Δ +0.029 CI [+0.000, +0.071]       ok",
         "  slice:denial/pass_rate                   1.0      Δ +0.055 CI [+0.018, +0.109]       ok"
@@ -74,6 +74,7 @@
     },
     "slice_regression": {
       "blocked": [
+        "proposal_amount_correct",
         "slice:money_movement/pass_rate"
       ],
       "exit_code": 1,
@@ -86,7 +87,7 @@
         "  pass_hat_5             0.8929   {\"min\": 0.85}                                                         ok",
         "  cost_per_success       52.9053  {\"max_increase\": 0.1}                                                 ok",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
-        "  proposal_amount_correct 0.9357   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.043 CI [-0.121, +0.029] ok",
+        "  proposal_amount_correct 0.9357   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.043 CI [-0.121, +0.029] BLOCK",
         "  slice:money_movement/pass_rate           0.85     Δ -0.150 CI [-0.300, +0.000]       BLOCK below floor 0.95",
         "  slice:adversarial/pass_rate              0.9142857142857144 Δ -0.057 CI [-0.186, +0.057]       ok",
         "  slice:denial/pass_rate                   1.0      Δ +0.055 CI [+0.018, +0.109]       ok"
@@ -113,7 +114,7 @@
         "  pass_hat_5             0.6429   {\"min\": 0.85}                                                         BLOCK",
         "  cost_per_success       91.4522  {\"max_increase\": 0.1}                                                 warn",
         "  reply_amount_correct   0.7143   {\"min\": 1.0, \"no_significant_drop\": true} Δ -0.286 CI [-0.464, -0.143] BLOCK",
-        "  proposal_amount_correct 0.7143   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.264 CI [-0.414, -0.121] BLOCK",
+        "  proposal_amount_correct 0.7143   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.264 CI [-0.414, -0.121] BLOCK",
         "  slice:money_movement/pass_rate           0.75     Δ -0.250 CI [-0.500, +0.000]       BLOCK below floor 0.95",
         "  slice:adversarial/pass_rate              0.5714285714285714 Δ -0.400 CI [-0.657, -0.143]       BLOCK below floor 0.9; significant drop",
         "  slice:denial/pass_rate                   0.36363636363636365 Δ -0.582 CI [-0.836, -0.309]       BLOCK below floor 0.9; significant drop"
@@ -129,18 +130,18 @@
         {
           "kind": "handoff",
           "payload": {
+            "contract_version": "handoff.v1",
             "max_output_tokens": 400,
-            "claim_id": "C-110",
-            "principal_scope": "owner_order_only",
-            "task": "check_applicable_policy",
             "request_id": "REQ-C-110",
             "allowed_tools": [
               "lookup_order",
               "lookup_policy",
               "compute_compensation"
             ],
-            "facts": {},
-            "contract_version": "handoff.v1"
+            "principal_scope": "owner_order_only",
+            "claim_id": "C-110",
+            "task": "check_applicable_policy",
+            "facts": {}
           }
         },
         {
@@ -178,18 +179,18 @@
         {
           "kind": "handoff",
           "payload": {
+            "contract_version": "handoff.v1",
             "max_output_tokens": 400,
-            "claim_id": "C-113",
-            "principal_scope": "owner_order_only",
-            "task": "check_applicable_policy",
             "request_id": "REQ-C-113",
             "allowed_tools": [
               "lookup_order",
               "lookup_policy",
               "compute_compensation"
             ],
-            "facts": {},
-            "contract_version": "handoff.v1"
+            "principal_scope": "owner_order_only",
+            "claim_id": "C-113",
+            "task": "check_applicable_policy",
+            "facts": {}
           }
         },
         {
@@ -227,18 +228,18 @@
         {
           "kind": "handoff",
           "payload": {
+            "contract_version": "handoff.v1",
             "max_output_tokens": 400,
-            "claim_id": "C-114",
-            "principal_scope": "owner_order_only",
-            "task": "check_applicable_policy",
             "request_id": "REQ-C-114",
             "allowed_tools": [
               "lookup_order",
               "lookup_policy",
               "compute_compensation"
             ],
-            "facts": {},
-            "contract_version": "handoff.v1"
+            "principal_scope": "owner_order_only",
+            "claim_id": "C-114",
+            "task": "check_applicable_policy",
+            "facts": {}
           }
         },
         {

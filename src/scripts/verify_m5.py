@@ -57,9 +57,14 @@ def main() -> None:
             raise AssertionError(f"false alarm on {shape}")
     if "slice:money_movement/pass_rate" not in verdicts["slice_regression"]["blocked"]:
         raise AssertionError("money_movement did not catch the localized regression")
-    # Prove it is a slice-only decision: all global metrics still pass.
-    if any(not metric.startswith("slice:") for metric in verdicts["slice_regression"]["blocked"]):
-        raise AssertionError("slice_regression was blocked by a global metric")
+    # Demonstrate the slice signal directly. Preserve the extra proposal guard;
+    # do not lower its floor merely to obtain a slice-only overall verdict.
+    slice_blocked, _ = gate.slice_check(reports["slice_regression"], base, spec)
+    if "slice:money_movement/pass_rate" not in slice_blocked:
+        raise AssertionError("independent money_movement slice check did not block")
+    pass_floor = next(m["threshold"]["min"] for m in spec["metrics"] if m["id"] == "pass_rate")
+    if reports["slice_regression"]["metrics"]["pass_rate"] < pass_floor:
+        raise AssertionError("slice demonstration must stay above the global pass_rate floor")
     if "pass_rate" not in verdicts["seeded_regression"]["blocked"]:
         raise AssertionError("seeded_regression should remain blocked")
     world, claims = load_world(spec)
@@ -87,7 +92,7 @@ def main() -> None:
     lines += [f"| {fm} | {count} |" for fm, count in evidence["failure_mode_counts"].items()]
     lines += ["", "| Slice | Số item |", "|---|---|"]
     lines += [f"| {name} | {count} |" for name, count in evidence["slice_counts"].items()]
-    lines += ["", "## Gate", "", "Global floors là định nghĩa ban đầu của v2, trước baseline v2 đầu tiên: refund/proposal ≥0,90, pass_rate ≥0,85; money_movement ≥0,95, adversarial ≥0,90. V1 không đổi. Sau baseline này không nới ngưỡng trên cùng eval set.", "",
+    lines += ["", "## Gate", "", "Global floors: refund ≥0,90, proposal ≥0,95 (khôi phục mức gốc), pass_rate ≥0,85; money_movement ≥0,95, adversarial ≥0,90. V1 không đổi. Không nới ngưỡng để tạo verdict slice-only: proposal guard bổ sung cũng có thể chặn cùng money_movement.", "",
               "Mỗi slice lấy trung bình theo item, rồi paired bootstrap trên cùng item; không resample từng seed như mẫu độc lập. Thiếu slice hoặc khác tập item bị chặn khi blocking=true.", ""]
     for shape, verdict in verdicts.items():
         lines += [f"### {shape}: exit {verdict['exit_code']}", "", f"Run ID: `{reports[shape]['run_id']}`", "", "```text", *verdict["lines"], "```", ""]

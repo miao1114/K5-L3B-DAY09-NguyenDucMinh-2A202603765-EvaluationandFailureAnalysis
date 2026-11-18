@@ -1,7 +1,7 @@
 {
   "baseline_run_id": "E-swarm-20261118-b6e7",
   "eval_set_sha": "b6e7b6bb68b6",
-  "metric_spec_version": "2.1",
+  "metric_spec_version": "2.2",
   "aa": {
     "reference_seeds": [
       11,
@@ -51,7 +51,7 @@
         "  pass_hat_5             1.0      {\"min\": 0.85}                                                         ok",
         "  cost_per_success       49.5043  {\"max_increase\": 0.1}                                                 ok",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
-        "  proposal_amount_correct 1.0      {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
+        "  proposal_amount_correct 1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
         "  slice:money_movement/pass_rate           1.0      Δ +0.000 CI [+0.000, +0.000]       ok",
         "  slice:adversarial/pass_rate              1.0      Δ +0.029 CI [+0.000, +0.071]       ok",
         "  slice:denial/pass_rate                   1.0      Δ +0.055 CI [+0.018, +0.109]       ok"
@@ -71,7 +71,7 @@
         "  pass_hat_5             1.0      {\"min\": 0.85}                                                         ok",
         "  cost_per_success       57.7186  {\"max_increase\": 0.1}                                                 warn",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
-        "  proposal_amount_correct 1.0      {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
+        "  proposal_amount_correct 1.0      {\"min\": 0.95, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
         "  slice:money_movement/pass_rate           1.0      Δ +0.000 CI [+0.000, +0.000]       ok",
         "  slice:adversarial/pass_rate              1.0      Δ +0.029 CI [+0.000, +0.071]       ok",
         "  slice:denial/pass_rate                   1.0      Δ +0.055 CI [+0.018, +0.109]       ok"
@@ -100,7 +100,7 @@
         "  pass_hat_5             0.6429   {\"min\": 0.85}                                                         BLOCK",
         "  cost_per_success       91.4522  {\"max_increase\": 0.1}                                                 warn",
         "  reply_amount_correct   0.7143   {\"min\": 1.0, \"no_significant_drop\": true} Δ -0.286 CI [-0.464, -0.143] BLOCK",
-        "  proposal_amount_correct 0.7143   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.264 CI [-0.414, -0.121] BLOCK",
+        "  proposal_amount_correct 0.7143   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.264 CI [-0.414, -0.121] BLOCK",
         "  slice:money_movement/pass_rate           0.75     Δ -0.250 CI [-0.500, +0.000]       BLOCK below floor 0.95",
         "  slice:adversarial/pass_rate              0.5714285714285714 Δ -0.400 CI [-0.657, -0.143]       BLOCK below floor 0.9; significant drop",
         "  slice:denial/pass_rate                   0.36363636363636365 Δ -0.582 CI [-0.836, -0.309]       BLOCK below floor 0.9; significant drop"
@@ -111,6 +111,7 @@
       "shape": "slice_regression",
       "expected": "block",
       "blocked": [
+        "proposal_amount_correct",
         "slice:money_movement/pass_rate"
       ],
       "lines": [
@@ -122,7 +123,7 @@
         "  pass_hat_5             0.8929   {\"min\": 0.85}                                                         ok",
         "  cost_per_success       52.9053  {\"max_increase\": 0.1}                                                 ok",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
-        "  proposal_amount_correct 0.9357   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.043 CI [-0.121, +0.029] ok",
+        "  proposal_amount_correct 0.9357   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.043 CI [-0.121, +0.029] BLOCK",
         "  slice:money_movement/pass_rate           0.85     Δ -0.150 CI [-0.300, +0.000]       BLOCK below floor 0.95",
         "  slice:adversarial/pass_rate              0.9142857142857144 Δ -0.057 CI [-0.186, +0.057]       ok",
         "  slice:denial/pass_rate                   1.0      Δ +0.055 CI [+0.018, +0.109]       ok"
@@ -147,7 +148,7 @@
         "  pass_hat_5             0.5714   {\"min\": 0.85}                                                         BLOCK",
         "  cost_per_success       54.1453  {\"max_increase\": 0.1}                                                 ok",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
-        "  proposal_amount_correct 0.9143   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.064 CI [-0.114, -0.014] BLOCK",
+        "  proposal_amount_correct 0.9143   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.064 CI [-0.114, -0.014] BLOCK",
         "  slice:money_movement/pass_rate           0.8666666666666667 Δ -0.133 CI [-0.183, -0.083]       BLOCK below floor 0.95; significant drop",
         "  slice:adversarial/pass_rate              0.9285714285714286 Δ -0.043 CI [-0.114, +0.029]       ok",
         "  slice:denial/pass_rate                   0.9272727272727272 Δ -0.018 CI [-0.109, +0.073]       ok"
@@ -223,6 +224,14 @@
       "lines": [
         "  INTEGRITY PR: evaluator_failures must be an empty list"
       ]
+    },
+    {
+      "name": "deleted_pass_k_forged_reliability",
+      "exit_code": 1,
+      "lines": [
+        "  INTEGRITY ratchet: removed pass_k estimates",
+        "  INTEGRITY PR: aggregate pass_hat_5 disagrees with rows"
+      ]
     }
   ],
   "quiet_fact_probe": {
@@ -243,7 +252,7 @@
       "  pass_hat_5             0.8929   {\"min\": 0.85}                                                         ok",
       "  cost_per_success       56.6472  {\"max_increase\": 0.1}                                                 warn",
       "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
-      "  proposal_amount_correct 0.8929   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.086 CI [-0.171, +0.000] BLOCK",
+      "  proposal_amount_correct 0.8929   {\"min\": 0.95, \"no_significant_drop\": true} Δ -0.086 CI [-0.171, +0.000] BLOCK",
       "  slice:money_movement/pass_rate           1.0      Δ +0.000 CI [+0.000, +0.000]       ok",
       "  slice:adversarial/pass_rate              0.8571428571428571 Δ -0.114 CI [-0.286, +0.000]       BLOCK below floor 0.9",
       "  slice:denial/pass_rate                   0.7272727272727273 Δ -0.218 CI [-0.436, -0.073]       BLOCK below floor 0.9; significant drop"

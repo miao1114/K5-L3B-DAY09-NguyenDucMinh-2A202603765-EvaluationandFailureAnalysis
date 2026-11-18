@@ -1,3 +1,5 @@
+﻿> Bản lưu nội dung PR tại mốc M4. Trạng thái cuối M5–M7 xem eval_card.md và m67_validation.md.
+
 Swarm đã chạy được nhưng cần bộ đánh giá để chặn regression trước khi merge. PR hoàn thiện Core M1–M4: taxonomy/provenance, calibration và audit judge, trajectory graders (gồm so tiền reply với ledger), paired bootstrap và baseline v1.
 
 Validation cục bộ: smoke PASS; evalset 0 problem(s); 46 test Core PASS; ci_check exit 0. Detection public variants 100%, false alarm fixed 0%. Swarm và fixed qua gate; seeded_regression bị chặn ở pass_rate với CI Δ khớp mốc bài lab. Mã nguồn Lab8 và src của dự án Day08 giữ nguyên. M5–M7 còn TODO.

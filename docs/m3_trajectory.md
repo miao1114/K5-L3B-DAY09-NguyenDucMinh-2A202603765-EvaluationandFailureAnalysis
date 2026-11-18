@@ -50,7 +50,7 @@ raise SystemExit(main(['--shape', 'm3_misreport']))
 '@ | .\.venv\Scripts\python.exe -
 ```
 
-36 test liên quan M1–M3 PASS. Hai test paired_bootstrap thuộc M4 chưa chạy; các test ngoài biểu thức chọn bị deselect, không bị sửa/skip trong mã. Toàn bộ lệnh kiểm Core trong README chỉ xanh sau M4.
+Bản ghi tại mốc M3: 36 test liên quan M1–M3 PASS; bootstrap của M4 chưa thuộc lượt kiểm này. Hiện M4–M7 đã hoàn thành và được kiểm tra đầy đủ; xem eval_card.md và m67_validation.md. Không sửa hoặc bỏ test để làm xanh.
 
 ## Giới hạn
 

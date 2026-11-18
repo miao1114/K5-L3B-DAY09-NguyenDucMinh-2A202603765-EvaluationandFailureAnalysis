@@ -46,7 +46,8 @@ def build(source: Path = SOURCE) -> tuple[int, int]:
         items.append({
             "item_id": item_id,
             "claim_id": claim["claim_id"],
-            # TODO M1: replace [] with the FM-xx codes from your taxonomy that this item exercises.
+            # M0 intentionally emits untagged items. M1 tags are reviewed in the JSONL;
+            # rebuilding v1 after annotation would overwrite that reviewed dataset.
             "failure_modes": [],
             "provenance": {"source": "lab8_public", "matrix_id": claim.get("matrix_id"),
                            "from_trace": None, "generator": None,

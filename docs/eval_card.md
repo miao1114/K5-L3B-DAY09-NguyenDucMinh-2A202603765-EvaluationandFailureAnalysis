@@ -66,7 +66,7 @@ M5–M7 đã triển khai và kiểm tra bằng vector public; bằng chứng v2
 
 Sinh bằng scripts.verify_m5, scripts.verify_m67 và scripts.build_advanced_docs. Chi tiết: [m5_validation.md](m5_validation.md), [m67_validation.md](m67_validation.md), [m67_cli.txt](m67_cli.txt).
 
-Eval set v2 có 28 item × 5 seed, SHA `b6e7b6bb68b6`; baseline `E-swarm-20261118-b6e7`, metric spec 2.1. Giữ nguyên item/nhãn/threshold và report v1. Code/grader là commit chứa thay đổi M6/M7; xem `git log -1 --format=%H -- src/lab9/stats.py src/lab9/integrity.py`.
+Eval set v2 có 28 item × 5 seed, SHA `b6e7b6bb68b6`; baseline `E-swarm-20261118-b6e7`, metric spec 2.2. Giữ nguyên item/nhãn/threshold và report v1. Code/grader là commit chứa thay đổi M6/M7; xem `git log -1 --format=%H -- src/lab9/stats.py src/lab9/integrity.py`.
 
 | Metric | Threshold | Blocking | Baseline |
 |---|---|---|---|
@@ -78,9 +78,9 @@ Eval set v2 có 28 item × 5 seed, SHA `b6e7b6bb68b6`; baseline `E-swarm-2026111
 | pass_hat_5 | `{"min": 0.85}` | True | 0.8929 |
 | cost_per_success | `{"max_increase": 0.1}` | False | 50.8077 |
 | reply_amount_correct | `{"min": 1.0, "no_significant_drop": true}` | True | 1.0 |
-| proposal_amount_correct | `{"min": 0.9, "no_significant_drop": true}` | True | 0.9786 |
+| proposal_amount_correct | `{"min": 0.95, "no_significant_drop": true}` | True | 0.9786 |
 
-Slice money_movement min=0,95, adversarial min=0,90, denial min=0,90; tất cả blocking và có paired CI theo trung bình từng item. Slice_regression có pass_rate tổng 0,9357, Δ −0,043, CI [−0,121; +0,029], chỉ money_movement chặn vì pass_rate slice=0,85. Các ngưỡng M5 giữ nguyên; M6 chỉ bổ sung pass_hat_5 blocking ở spec 2.1.
+Slice money_movement min=0,95, adversarial min=0,90, denial min=0,90; tất cả blocking và có paired CI theo trung bình từng item. Slice_regression có pass_rate tổng 0,9357, Δ −0,043, CI [−0,121; +0,029]; riêng slice_check chặn money_movement vì pass_rate slice=0,85. Gate đầy đủ còn chặn bằng proposal_amount_correct: ngưỡng được khôi phục 0,95 ở spec 2.2, không hạ guard để tạo verdict slice-only. Sàn pass_hat_5 vẫn 0,85.
 
 ### M6: A/A và độ ổn định
 
@@ -113,10 +113,10 @@ Với LLM thật dải nhiễu có thể >0 và cần A/A/held-out mới. Năm s
 | fixed | merge | none |
 | honest_refactor | merge | none |
 | seeded_regression | block | refund_amount_correct, pass_rate, pass_hat_5, reply_amount_correct, proposal_amount_correct, slice:money_movement/pass_rate, slice:adversarial/pass_rate, slice:denial/pass_rate |
-| slice_regression | block | slice:money_movement/pass_rate |
+| slice_regression | block | proposal_amount_correct, slice:money_movement/pass_rate |
 | flaky_regression | block | pass_rate, pass_hat_5, proposal_amount_correct, slice:money_movement/pass_rate |
 
-Mutation 3/3, không báo nhầm fixed/honest_refactor; baseline tự so vẫn qua. Bốn trap public đều exit 1 vì INTEGRITY/ratchet. Hai kiểm tra bổ sung (dòng trùng trên report xanh, evaluator_failures trên report xanh) cũng bị chặn. Diagnostic quiet_fact_probe không có override event (db_fact_kept=1) vẫn bị chặn qua ledger/proposal; không sửa variant/trap được cung cấp.
+Mutation 3/3, không báo nhầm fixed/honest_refactor; baseline tự so vẫn qua. Bốn trap public đều exit 1 vì INTEGRITY/ratchet. 3 kiểm tra bổ sung đều bị chặn, gồm dòng trùng, evaluator_failures trên report xanh và xóa pass_k rồi giả pass_hat_5=1. Metric độ ổn định luôn được tính lại từ rows, độc lập với cấu hình pass_k có thể bị sửa. Diagnostic quiet_fact_probe không có override event (db_fact_kept=1) vẫn bị chặn qua ledger/proposal; không sửa variant/trap được cung cấp.
 
 CI lấy base spec từ checkout độc lập của commit base. Ratchet giữa các PR áp dụng sau khi baseline v2 đầu tiên đã được publish trên base branch; bản Core-only trước đó chỉ có spec v2 dự thảo. Các trap vẫn luôn kiểm ratchet với --base-spec. Không sửa report hoặc nới ngưỡng để qua gate.
 
@@ -124,4 +124,4 @@ CI lấy base spec từ checkout độc lập của commit base. Ratchet giữa 
 
 MockLLM, tập public 28 item, 5 seed và judge replay không thay thế thử nghiệm production hoặc bộ chấm ẩn. Baseline swarm không có reply event nên không chứng minh chất lượng reply; FM-08 được kiểm bằng các trial có reply. Gate kiểm tính nhất quán report, không xác thực chữ ký/nguồn gốc trace; vẫn cần baseline/code grader đáng tin và review. Không khẳng định đã qua vector ẩn.
 
-Owner: Nguyễn Đức Minh. Chỉ chuyển PR #3 sang Ready for review khi Core, M5 và Advanced CI đều Success; không có waiver tự động. Đổi dữ liệu/nhãn phải tăng eval_set_version, đổi metric phải tăng metric_spec_version, và không nới policy trên cùng tập đã được đóng băng.
+Owner: Nguyễn Đức Minh. Chỉ chuyển PR sửa bài sang Ready for review khi Core, M5 và Advanced CI đều Success; không có waiver tự động. Đổi dữ liệu/nhãn phải tăng eval_set_version, đổi metric phải tăng metric_spec_version, và không nới policy trên cùng tập đã được đóng băng.

@@ -1,4 +1,4 @@
-"""Update the evaluation handoff from generated M5-M7 evidence, preserving Core tables."""
+﻿"""Update the evaluation handoff from generated M5-M7 evidence, preserving Core tables."""
 from __future__ import annotations
 
 import json
@@ -28,7 +28,7 @@ Eval set v2 có {baseline['manifest']['items']} item × {len(baseline['manifest'
 |---|---|---|---|
 {metrics}
 
-Slice money_movement min=0,95, adversarial min=0,90, denial min=0,90; tất cả blocking và có paired CI theo trung bình từng item. Slice_regression có pass_rate tổng 0,9357, Δ −0,043, CI [−0,121; +0,029], chỉ money_movement chặn vì pass_rate slice=0,85. Các ngưỡng M5 giữ nguyên; M6 chỉ bổ sung pass_hat_5 blocking ở spec 2.1.
+Slice money_movement min=0,95, adversarial min=0,90, denial min=0,90; tất cả blocking và có paired CI theo trung bình từng item. Slice_regression có pass_rate tổng 0,9357, Δ −0,043, CI [−0,121; +0,029]; riêng slice_check chặn money_movement vì pass_rate slice=0,85. Gate đầy đủ còn chặn bằng proposal_amount_correct: ngưỡng được khôi phục 0,95 ở spec 2.2, không hạ guard để tạo verdict slice-only. Sàn pass_hat_5 vẫn 0,85.
 
 ### M6: A/A và độ ổn định
 
@@ -46,7 +46,7 @@ Với LLM thật dải nhiễu có thể >0 và cần A/A/held-out mới. Năm s
 |---|---|---|
 {scorecard}
 
-Mutation 3/3, không báo nhầm fixed/honest_refactor; baseline tự so vẫn qua. Bốn trap public đều exit 1 vì INTEGRITY/ratchet. Hai kiểm tra bổ sung (dòng trùng trên report xanh, evaluator_failures trên report xanh) cũng bị chặn. Diagnostic quiet_fact_probe không có override event (db_fact_kept=1) vẫn bị chặn qua ledger/proposal; không sửa variant/trap được cung cấp.
+Mutation 3/3, không báo nhầm fixed/honest_refactor; baseline tự so vẫn qua. Bốn trap public đều exit 1 vì INTEGRITY/ratchet. {len(evidence['additional_checks'])} kiểm tra bổ sung đều bị chặn, gồm dòng trùng, evaluator_failures trên report xanh và xóa pass_k rồi giả pass_hat_5=1. Metric độ ổn định luôn được tính lại từ rows, độc lập với cấu hình pass_k có thể bị sửa. Diagnostic quiet_fact_probe không có override event (db_fact_kept=1) vẫn bị chặn qua ledger/proposal; không sửa variant/trap được cung cấp.
 
 CI lấy base spec từ checkout độc lập của commit base. Ratchet giữa các PR áp dụng sau khi baseline v2 đầu tiên đã được publish trên base branch; bản Core-only trước đó chỉ có spec v2 dự thảo. Các trap vẫn luôn kiểm ratchet với --base-spec. Không sửa report hoặc nới ngưỡng để qua gate.
 
@@ -54,7 +54,7 @@ CI lấy base spec từ checkout độc lập của commit base. Ratchet giữa 
 
 MockLLM, tập public 28 item, 5 seed và judge replay không thay thế thử nghiệm production hoặc bộ chấm ẩn. Baseline swarm không có reply event nên không chứng minh chất lượng reply; FM-08 được kiểm bằng các trial có reply. Gate kiểm tính nhất quán report, không xác thực chữ ký/nguồn gốc trace; vẫn cần baseline/code grader đáng tin và review. Không khẳng định đã qua vector ẩn.
 
-Owner: Nguyễn Đức Minh. Chỉ chuyển PR #3 sang Ready for review khi Core, M5 và Advanced CI đều Success; không có waiver tự động. Đổi dữ liệu/nhãn phải tăng eval_set_version, đổi metric phải tăng metric_spec_version, và không nới policy trên cùng tập đã được đóng băng.
+Owner: Nguyễn Đức Minh. Chỉ chuyển PR sửa bài sang Ready for review khi Core, M5 và Advanced CI đều Success; không có waiver tự động. Đổi dữ liệu/nhãn phải tăng eval_set_version, đổi metric phải tăng metric_spec_version, và không nới policy trên cùng tập đã được đóng băng.
 """
     (docs / "eval_card.md").write_text(card.rstrip() + "\n\n" + v2, encoding="utf-8", newline="\n")
     prd = (docs / "PRD_v1.1.md").read_text(encoding="utf-8-sig").split("## Advanced M5–M7", 1)[0]
@@ -62,15 +62,15 @@ Owner: Nguyễn Đức Minh. Chỉ chuyển PR #3 sang Ready for review khi Core
                       "Integrity/ratchet và slice gate đã triển khai; xem bằng chứng M5–M7 trong eval card.")
     prd = prd.replace("Chỉ merge PR starter/d09 → main trong fork sau khi job eval-gate xanh.",
                       "Chỉ merge PR nhánh làm bài → main trong fork sau khi các job Core và Advanced cần thiết đều xanh.")
-    prd += f"\n## Advanced M5–M7\n\nEval set v2 SHA {evidence['eval_set_sha']}; spec {spec['metric_spec_version']}. Gate bổ sung money_movement/adversarial slices, pass_hat_5≥0,85, kiểm integrity trước thống kê và ratchet so policy đã publish. Mutation public 3/3, 0 false alarm; 4/4 trap public và 2/2 kiểm tra bổ sung bị chặn. Chi tiết, A/A và giới hạn cỡ mẫu tại eval_card.md và m67_validation.md. Product approval vẫn chưa được xác nhận; kết quả public không phải bảo đảm điểm bộ chấm ẩn.\n"
+    prd += f"\n## Advanced M5–M7\n\nEval set v2 SHA {evidence['eval_set_sha']}; spec {spec['metric_spec_version']}. Gate bổ sung money_movement/adversarial slices, pass_hat_5≥0,85, kiểm integrity trước thống kê và ratchet so policy đã publish. Mutation public 3/3, 0 false alarm; 4/4 trap public và {len(evidence['additional_checks'])}/{len(evidence['additional_checks'])} kiểm tra bổ sung bị chặn. Chi tiết, A/A và giới hạn cỡ mẫu tại eval_card.md và m67_validation.md. Product approval vẫn chưa được xác nhận; kết quả public không phải bảo đảm điểm bộ chấm ẩn.\n"
     (docs / "PRD_v1.1.md").write_text(prd, encoding="utf-8", newline="\n")
     pr = f"""Complete Advanced M5–M7 so the gate catches localized regressions, intermittent failures, and corrupted evaluation evidence. Keep the 14-item v1 dataset and Core reports unchanged; v2 adds the supplied adversarial pack and frozen slice thresholds.
 
-Implement pass@k/pass^k with invalid-input checks and choose blocking pass_hat_5>=0.85 after A/A delta=0 (baseline {evidence['pass_hat_5_baseline']}, flaky {evidence['pass_hat_5_flaky']}). Metric spec 2.1 adds this reliability guard without loosening M5 thresholds.
+Implement pass@k/pass^k with invalid-input checks and choose blocking pass_hat_5>=0.85 after A/A delta=0 (baseline {evidence['pass_hat_5_baseline']}, flaky {evidence['pass_hat_5_flaky']}). Metric spec 2.2 restores the original proposal floor=0.95 and preserves the reliability/slice guards.
 
 Integrity rejects duplicate/missing rows, changed seeds/slices, None/NaN/inf, evaluator failures, and aggregate values inconsistent with rows. Ratchet protects metric/slice thresholds, blocking, and no_significant_drop. CI checks the trusted base spec once the first v2 baseline is published. Supplied variants, traps, tests, Lab8 and the separate Day08 source remain unchanged.
 
-Validation: 90 M1–M7 student tests pass locally. Mutation 3/3 regressions blocked, 0/2 false alarms; all 4 public traps plus 2 additional evidence checks rejected. Quiet fact corruption with no override event is blocked using outcomes. Reports/documents are script-generated. Hidden grading is not available.
+Validation: all M1–M7 student tests pass locally. Mutation 3/3 regressions blocked, 0/2 false alarms; all 4 public traps plus {len(evidence['additional_checks'])} additional evidence checks rejected. Reliability scores are recomputed even if pass_k is deleted. Quiet fact corruption with no override event is blocked using outcomes. Reports/documents are script-generated. Hidden grading is not available.
 
 | Shape | Expected | Blocked metrics |
 |---|---|---|
@@ -83,7 +83,7 @@ A/A: all metric deltas=0 for 11,22,33,44,55 vs 66,77,88,99,110
     pr += "\n".join(f"{trap['name']}: exit 1 — INTEGRITY" for trap in evidence["public_traps"])
     pr += "\n```\n\nSee docs/m67_cli.txt for official mutation/A/A/trap CLI output and docs/m67_validation.md for detailed rejection reasons. Wait for all hosted CI jobs to pass before merging.\n"
     (docs / "pr_m5.md").write_text(pr, encoding="utf-8", newline="\n")
-    print("updated eval_card.md, PRD_v1.1.md and PR #3 body")
+    print("updated eval_card.md, PRD_v1.1.md and Advanced PR body")
 
 
 if __name__ == "__main__":
