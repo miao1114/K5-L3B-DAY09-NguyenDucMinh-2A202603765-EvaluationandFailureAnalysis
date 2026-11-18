@@ -49,6 +49,10 @@ Owner xử lý gate đỏ bằng sửa lỗi, chạy test, sinh lại report. Kh
 
 ## Rủi ro mở và thay đổi phiên bản
 
-MockLLM, 14 item, judge replay công khai, không có dữ liệu người dùng thật; baseline swarm không có reply event. Không kết luận chất lượng production hoặc độ đúng reply từ baseline này. Integrity/ratchet và slice gate thuộc M5–M7 chưa triển khai.
+MockLLM, 14 item, judge replay công khai, không có dữ liệu người dùng thật; baseline swarm không có reply event. Không kết luận chất lượng production hoặc độ đúng reply từ baseline này. Integrity/ratchet và slice gate đã triển khai; xem bằng chứng M5–M7 trong eval card.
 
-Thêm/sửa item hoặc nhãn: tăng eval_set_version, sinh baseline mới. Đổi metric/ngưỡng: tăng metric_spec_version và giải thích; không nới ngưỡng trên cùng eval set. Chỉ merge PR starter/d09 → main trong fork sau khi job eval-gate xanh. Hạn nộp theo LMS của ca, chưa ghi nhận ngày giờ cụ thể ở tài liệu này.
+Thêm/sửa item hoặc nhãn: tăng eval_set_version, sinh baseline mới. Đổi metric/ngưỡng: tăng metric_spec_version và giải thích; không nới ngưỡng trên cùng eval set. Chỉ merge PR nhánh làm bài → main trong fork sau khi các job Core và Advanced cần thiết đều xanh. Hạn nộp theo LMS của ca, chưa ghi nhận ngày giờ cụ thể ở tài liệu này.
+
+## Advanced M5–M7
+
+Eval set v2 SHA b6e7b6bb68b6; spec 2.1. Gate bổ sung money_movement/adversarial slices, pass_hat_5≥0,85, kiểm integrity trước thống kê và ratchet so policy đã publish. Mutation public 3/3, 0 false alarm; 4/4 trap public và 2/2 kiểm tra bổ sung bị chặn. Chi tiết, A/A và giới hạn cỡ mẫu tại eval_card.md và m67_validation.md. Product approval vẫn chưa được xác nhận; kết quả public không phải bảo đảm điểm bộ chấm ẩn.

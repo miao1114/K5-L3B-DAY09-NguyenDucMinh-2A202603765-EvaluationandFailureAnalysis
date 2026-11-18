@@ -92,7 +92,7 @@ def main() -> None:
     for shape, verdict in verdicts.items():
         lines += [f"### {shape}: exit {verdict['exit_code']}", "", f"Run ID: `{reports[shape]['run_id']}`", "", "```text", *verdict["lines"], "```", ""]
     lines += ["## FM-09 và giới hạn", "", "Các trace C-110/C-113/C-114@11 trong m5_evidence.json cho thấy fixed từ chối truy cập ngoài principal, escalated và không chuyển tiền. Đây là đối chứng guardrail chống cross_principal, không phải tuyên bố đã quan sát được một vụ lộ dữ liệu thật.", "",
-              "M5 hoàn thành eval set, mapping và slice gate. M6 pass@k/pass^k, A/A và flaky detection; M7 integrity/ratchet vẫn chưa hoàn thành. Workflow eval-gate-v2 của đề hiện chạy chung cả M5–M7 nên có thể đỏ ở các test M6/M7 còn TODO; không bỏ hoặc sửa các test đó để làm xanh M5.", "",
+              "Script này xác minh riêng M5. Kết quả M6 pass@k/pass^k, A/A và flaky detection cùng M7 integrity/ratchet được xác minh bằng scripts.verify_m67 và ghi tại m67_validation.md. Workflow eval-gate-v2 vẫn chạy đầy đủ test Advanced, mutation, A/A và trap; không bỏ hoặc sửa test để làm xanh.", "",
               "MockLLM, tập public nhỏ và 5 seed không đại diện production. Ngưỡng slice được chọn cho pilot public ở phiên bản v2 đầu tiên; chưa có hiệu chỉnh ngoài dải nhiễu A/A của LLM thật. Không chỉnh variant/trap, không sửa Lab8, không sửa tay report."]
     Path("../docs/m5_validation.md").write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     print("M5 PASS", flush=True)

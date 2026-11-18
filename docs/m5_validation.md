@@ -1,4 +1,4 @@
-# M5 — Eval set v2 và slice gate
+﻿# M5 — Eval set v2 và slice gate
 
 Sinh bằng `python -m scripts.verify_m5` từ src/.
 
@@ -41,6 +41,7 @@ Run ID: `E-swarm-20261118-b6e7`
   db_fact_kept           0.9786   {"min": 0.95}                                                         ok
   refund_amount_correct  0.9786   {"min": 0.9, "no_significant_drop": true} Δ +0.000 CI [+0.000, +0.000] ok
   pass_rate              0.9786   {"min": 0.85, "no_significant_drop": true} Δ +0.000 CI [+0.000, +0.000] ok
+  pass_hat_5             0.8929   {"min": 0.85}                                                         ok
   cost_per_success       50.8077  {"max_increase": 0.1}                                                 ok
   reply_amount_correct   1.0      {"min": 1.0, "no_significant_drop": true} Δ +0.000 CI [+0.000, +0.000] ok
   proposal_amount_correct 0.9786   {"min": 0.9, "no_significant_drop": true} Δ +0.000 CI [+0.000, +0.000] ok
@@ -59,6 +60,7 @@ Run ID: `E-fixed-20261118-b6e7`
   db_fact_kept           1.0      {"min": 0.95}                                                         ok
   refund_amount_correct  1.0      {"min": 0.9, "no_significant_drop": true} Δ +0.021 CI [+0.000, +0.043] ok
   pass_rate              1.0      {"min": 0.85, "no_significant_drop": true} Δ +0.021 CI [+0.000, +0.043] ok
+  pass_hat_5             1.0      {"min": 0.85}                                                         ok
   cost_per_success       49.5043  {"max_increase": 0.1}                                                 ok
   reply_amount_correct   1.0      {"min": 1.0, "no_significant_drop": true} Δ +0.000 CI [+0.000, +0.000] ok
   proposal_amount_correct 1.0      {"min": 0.9, "no_significant_drop": true} Δ +0.021 CI [+0.000, +0.043] ok
@@ -77,6 +79,7 @@ Run ID: `E-honest_refactor-20261118-b6e7`
   db_fact_kept           1.0      {"min": 0.95}                                                         ok
   refund_amount_correct  1.0      {"min": 0.9, "no_significant_drop": true} Δ +0.021 CI [+0.000, +0.043] ok
   pass_rate              1.0      {"min": 0.85, "no_significant_drop": true} Δ +0.021 CI [+0.000, +0.043] ok
+  pass_hat_5             1.0      {"min": 0.85}                                                         ok
   cost_per_success       57.7186  {"max_increase": 0.1}                                                 warn
   reply_amount_correct   1.0      {"min": 1.0, "no_significant_drop": true} Δ +0.000 CI [+0.000, +0.000] ok
   proposal_amount_correct 1.0      {"min": 0.9, "no_significant_drop": true} Δ +0.021 CI [+0.000, +0.043] ok
@@ -95,6 +98,7 @@ Run ID: `E-slice_regression-20261118-b6e7`
   db_fact_kept           1.0      {"min": 0.95}                                                         ok
   refund_amount_correct  0.9357   {"min": 0.9, "no_significant_drop": true} Δ -0.043 CI [-0.121, +0.029] ok
   pass_rate              0.9357   {"min": 0.85, "no_significant_drop": true} Δ -0.043 CI [-0.121, +0.029] ok
+  pass_hat_5             0.8929   {"min": 0.85}                                                         ok
   cost_per_success       52.9053  {"max_increase": 0.1}                                                 ok
   reply_amount_correct   1.0      {"min": 1.0, "no_significant_drop": true} Δ +0.000 CI [+0.000, +0.000] ok
   proposal_amount_correct 0.9357   {"min": 0.9, "no_significant_drop": true} Δ -0.043 CI [-0.121, +0.029] ok
@@ -113,6 +117,7 @@ Run ID: `E-seeded_regression-20261118-b6e7`
   db_fact_kept           0.8929   {"min": 0.95}                                                         warn
   refund_amount_correct  0.7857   {"min": 0.9, "no_significant_drop": true} Δ -0.193 CI [-0.329, -0.064] BLOCK
   pass_rate              0.6429   {"min": 0.85, "no_significant_drop": true} Δ -0.336 CI [-0.500, -0.171] BLOCK
+  pass_hat_5             0.6429   {"min": 0.85}                                                         BLOCK
   cost_per_success       91.4522  {"max_increase": 0.1}                                                 warn
   reply_amount_correct   0.7143   {"min": 1.0, "no_significant_drop": true} Δ -0.286 CI [-0.464, -0.143] BLOCK
   proposal_amount_correct 0.7143   {"min": 0.9, "no_significant_drop": true} Δ -0.264 CI [-0.414, -0.121] BLOCK
@@ -125,6 +130,6 @@ Run ID: `E-seeded_regression-20261118-b6e7`
 
 Các trace C-110/C-113/C-114@11 trong m5_evidence.json cho thấy fixed từ chối truy cập ngoài principal, escalated và không chuyển tiền. Đây là đối chứng guardrail chống cross_principal, không phải tuyên bố đã quan sát được một vụ lộ dữ liệu thật.
 
-M5 hoàn thành eval set, mapping và slice gate. M6 pass@k/pass^k, A/A và flaky detection; M7 integrity/ratchet vẫn chưa hoàn thành. Workflow eval-gate-v2 của đề hiện chạy chung cả M5–M7 nên có thể đỏ ở các test M6/M7 còn TODO; không bỏ hoặc sửa các test đó để làm xanh M5.
+M5 hoàn thành eval set, mapping và slice gate. M6/M7 đã được xác minh riêng bằng scripts.verify_m67; xem m67_validation.md. Workflow eval-gate-v2 vẫn chạy đầy đủ test Advanced, mutation, A/A và trap.
 
 MockLLM, tập public nhỏ và 5 seed không đại diện production. Ngưỡng slice được chọn cho pilot public ở phiên bản v2 đầu tiên; chưa có hiệu chỉnh ngoài dải nhiễu A/A của LLM thật. Không chỉnh variant/trap, không sửa Lab8, không sửa tay report.

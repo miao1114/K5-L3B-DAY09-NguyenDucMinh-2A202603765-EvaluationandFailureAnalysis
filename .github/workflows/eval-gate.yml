@@ -114,4 +114,32 @@ jobs:
       - if: steps.has.outputs.v2
         run: python -m lab9.evalset --v2
       - if: steps.has.outputs.v2
-        run: python -m lab9.mutation --spec config/metric_spec_v2.yaml --baseline reports/baseline_v2.json
+        name: Checkout trusted base for ratchet
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          path: .ci-base
+          persist-credentials: false
+      - if: steps.has.outputs.v2
+        name: Verify mutation scorecard and published-spec ratchet
+        shell: bash
+        run: |
+          base_args=()
+          # Freeze v2 policy once a v2 baseline has been published on the base branch.
+          # A Core-only base has only an uncalibrated draft v2 spec, not a v2 baseline.
+          if [[ -f ../.ci-base/src/reports/baseline_v2.json ]]; then
+            base_args=(--base-spec ../.ci-base/src/config/metric_spec_v2.yaml)
+          fi
+          python -m lab9.mutation --spec config/metric_spec_v2.yaml --baseline reports/baseline_v2.json "${base_args[@]}"
+      - if: steps.has.outputs.v2
+        name: Verify A/A noise
+        run: python -m lab9.mutation --spec config/metric_spec_v2.yaml --aa 66,77,88,99,110
+      - if: steps.has.outputs.v2
+        name: Verify integrity traps
+        shell: bash
+        run: |
+          python -m lab9.eval --shape slice_regression --spec config/metric_spec_v2.yaml --out reports/eval_v2_slice_regression.json
+          python -m lab9.traps --pr reports/eval_v2_slice_regression.json --baseline reports/baseline_v2.json --spec config/metric_spec_v2.yaml
+      - if: steps.has.outputs.v2
+        name: Verify additional M6 and M7 evidence
+        run: python -m scripts.verify_m67

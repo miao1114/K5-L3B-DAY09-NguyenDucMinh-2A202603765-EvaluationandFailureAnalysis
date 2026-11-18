@@ -27,6 +27,7 @@
         "  db_fact_kept           0.9786   {\"min\": 0.95}                                                         ok",
         "  refund_amount_correct  0.9786   {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
         "  pass_rate              0.9786   {\"min\": 0.85, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
+        "  pass_hat_5             0.8929   {\"min\": 0.85}                                                         ok",
         "  cost_per_success       50.8077  {\"max_increase\": 0.1}                                                 ok",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
         "  proposal_amount_correct 0.9786   {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
@@ -44,6 +45,7 @@
         "  db_fact_kept           1.0      {\"min\": 0.95}                                                         ok",
         "  refund_amount_correct  1.0      {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
         "  pass_rate              1.0      {\"min\": 0.85, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
+        "  pass_hat_5             1.0      {\"min\": 0.85}                                                         ok",
         "  cost_per_success       49.5043  {\"max_increase\": 0.1}                                                 ok",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
         "  proposal_amount_correct 1.0      {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
@@ -61,6 +63,7 @@
         "  db_fact_kept           1.0      {\"min\": 0.95}                                                         ok",
         "  refund_amount_correct  1.0      {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
         "  pass_rate              1.0      {\"min\": 0.85, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
+        "  pass_hat_5             1.0      {\"min\": 0.85}                                                         ok",
         "  cost_per_success       57.7186  {\"max_increase\": 0.1}                                                 warn",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
         "  proposal_amount_correct 1.0      {\"min\": 0.9, \"no_significant_drop\": true} Δ +0.021 CI [+0.000, +0.043] ok",
@@ -80,6 +83,7 @@
         "  db_fact_kept           1.0      {\"min\": 0.95}                                                         ok",
         "  refund_amount_correct  0.9357   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.043 CI [-0.121, +0.029] ok",
         "  pass_rate              0.9357   {\"min\": 0.85, \"no_significant_drop\": true} Δ -0.043 CI [-0.121, +0.029] ok",
+        "  pass_hat_5             0.8929   {\"min\": 0.85}                                                         ok",
         "  cost_per_success       52.9053  {\"max_increase\": 0.1}                                                 ok",
         "  reply_amount_correct   1.0      {\"min\": 1.0, \"no_significant_drop\": true} Δ +0.000 CI [+0.000, +0.000] ok",
         "  proposal_amount_correct 0.9357   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.043 CI [-0.121, +0.029] ok",
@@ -92,6 +96,7 @@
       "blocked": [
         "refund_amount_correct",
         "pass_rate",
+        "pass_hat_5",
         "reply_amount_correct",
         "proposal_amount_correct",
         "slice:money_movement/pass_rate",
@@ -105,6 +110,7 @@
         "  db_fact_kept           0.8929   {\"min\": 0.95}                                                         warn",
         "  refund_amount_correct  0.7857   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.193 CI [-0.329, -0.064] BLOCK",
         "  pass_rate              0.6429   {\"min\": 0.85, \"no_significant_drop\": true} Δ -0.336 CI [-0.500, -0.171] BLOCK",
+        "  pass_hat_5             0.6429   {\"min\": 0.85}                                                         BLOCK",
         "  cost_per_success       91.4522  {\"max_increase\": 0.1}                                                 warn",
         "  reply_amount_correct   0.7143   {\"min\": 1.0, \"no_significant_drop\": true} Δ -0.286 CI [-0.464, -0.143] BLOCK",
         "  proposal_amount_correct 0.7143   {\"min\": 0.9, \"no_significant_drop\": true} Δ -0.264 CI [-0.414, -0.121] BLOCK",
@@ -123,17 +129,17 @@
         {
           "kind": "handoff",
           "payload": {
+            "max_output_tokens": 400,
+            "claim_id": "C-110",
+            "principal_scope": "owner_order_only",
+            "task": "check_applicable_policy",
+            "request_id": "REQ-C-110",
             "allowed_tools": [
               "lookup_order",
               "lookup_policy",
               "compute_compensation"
             ],
-            "task": "check_applicable_policy",
-            "claim_id": "C-110",
-            "principal_scope": "owner_order_only",
-            "max_output_tokens": 400,
             "facts": {},
-            "request_id": "REQ-C-110",
             "contract_version": "handoff.v1"
           }
         },
@@ -172,17 +178,17 @@
         {
           "kind": "handoff",
           "payload": {
+            "max_output_tokens": 400,
+            "claim_id": "C-113",
+            "principal_scope": "owner_order_only",
+            "task": "check_applicable_policy",
+            "request_id": "REQ-C-113",
             "allowed_tools": [
               "lookup_order",
               "lookup_policy",
               "compute_compensation"
             ],
-            "task": "check_applicable_policy",
-            "claim_id": "C-113",
-            "principal_scope": "owner_order_only",
-            "max_output_tokens": 400,
             "facts": {},
-            "request_id": "REQ-C-113",
             "contract_version": "handoff.v1"
           }
         },
@@ -221,17 +227,17 @@
         {
           "kind": "handoff",
           "payload": {
+            "max_output_tokens": 400,
+            "claim_id": "C-114",
+            "principal_scope": "owner_order_only",
+            "task": "check_applicable_policy",
+            "request_id": "REQ-C-114",
             "allowed_tools": [
               "lookup_order",
               "lookup_policy",
               "compute_compensation"
             ],
-            "task": "check_applicable_policy",
-            "claim_id": "C-114",
-            "principal_scope": "owner_order_only",
-            "max_output_tokens": 400,
             "facts": {},
-            "request_id": "REQ-C-114",
             "contract_version": "handoff.v1"
           }
         },
