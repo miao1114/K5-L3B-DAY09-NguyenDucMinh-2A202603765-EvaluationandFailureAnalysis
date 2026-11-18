@@ -8,7 +8,7 @@ Mô phỏng offline hoàn phí giao trễ/hàng hỏng trong 14 claim public, th
 
 ## Định nghĩa chạy đúng
 
-Baseline `E-swarm-20261118-df2e`, eval set SHA `df2e03dfe29b`. Cùng commit thay đổi mã nguồn đi kèm tài liệu; tra bằng `git log -1 --format=%H -- src/lab9/stats.py src/lab9/graders.py`.
+Baseline `E-swarm-20261118-4d10`, eval set SHA `4d100783aa8e`. Cùng commit thay đổi mã nguồn đi kèm tài liệu; tra bằng `git log -1 --format=%H -- src/lab9/stats.py src/lab9/graders.py`.
 
 | Metric | Threshold | Chặn release | Baseline |
 |---|---|---|---|

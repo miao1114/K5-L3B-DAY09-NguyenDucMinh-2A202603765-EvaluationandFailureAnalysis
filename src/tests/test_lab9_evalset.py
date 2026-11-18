@@ -32,6 +32,8 @@ def test_build_writes_items_and_labels_without_checking_tags(tmp_path, evalset_c
     result = evalset_cli("--build")
     assert result.returncode == 0, result.stdout + result.stderr
     assert "problem(s)" not in result.stdout
+    # SHA is over raw bytes: Windows builds must match Linux/git checkout bytes.
+    assert b"\r\n" not in (tmp_path / "data/eval/eval_set_v1.jsonl").read_bytes()
     item = json.loads((tmp_path / "data/eval/eval_set_v1.jsonl").read_text(encoding="utf-8"))
     labels = json.loads((tmp_path / "data/eval/labels_v1.json").read_text(encoding="utf-8"))
     assert item["claim_id"] == "C-001"

@@ -2,7 +2,7 @@
 
 | Trường | Nội dung |
 |---|---|
-| Trial | `seeded_regression C-002@11`, trace run ID `R-seeded_regression-C-002-s11`; mục trace_case trong [m1_trace_evidence.json](m1_trace_evidence.json). Trace này tương ứng trial E-002@11 trong report M4 `E-seeded_regression-20261118-df2e` tại src/reports/eval_seeded_regression.json. |
+| Trial | `seeded_regression C-002@11`, trace run ID `R-seeded_regression-C-002-s11`; mục trace_case trong [m1_trace_evidence.json](m1_trace_evidence.json). Trace này tương ứng trial E-002@11 trong report M4 `E-seeded_regression-20261118-4d10` tại src/reports/eval_seeded_regression.json. |
 | Triệu chứng | Lab8 FAIL: status resolved != denied. Ledger ghi thêm 20.000đ/1 refund, nhãn yêu cầu denied và 0đ/0 refund; event 6 reply báo đã hoàn 20.000đ. |
 | Bước sai đầu tiên | **Event 3**, model_override, payload `{"delay_days": 5}`. |
 | Vì sao là bước đầu tiên | Event 1 handoff giới hạn owner_order_only cho C-002; event 2 lookup đúng O-202 với delay_days=2, visible=true. Event 3 mới đổi 2 thành 5 theo ticket. Event 4 quote 20.000đ, event 5 history=0 và event 6 reply là các bước sau đó. |
