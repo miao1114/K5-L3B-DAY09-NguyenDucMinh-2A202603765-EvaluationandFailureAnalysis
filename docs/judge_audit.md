@@ -63,6 +63,6 @@ Chạy từ src/:
 .\.venv\Scripts\python.exe -m pytest -q -m student -o addopts= -p no:cacheprovider tests/test_lab9_stats.py tests/test_lab9_m2_calibration.py -k 'not paired_bootstrap'
 ```
 
-15 test M2 PASS; 2 test paired_bootstrap thuộc M4 được loại khỏi lượt kiểm M2, hàm M4 chưa triển khai. Runtime Python 3.14.10 tại máy setup; số liệu được đo trên môi trường này.
+Bản ghi tại mốc M2: 15 test PASS; 2 test bootstrap của M4 chưa thuộc lượt kiểm này. Hiện M4 đã hoàn thành; kết quả cuối xem eval_card.md và m67_validation.md. Runtime Python 3.14.10 tại máy setup; số liệu được đo trên môi trường này.
 
 Hai bộ đều 100 dòng replay công khai, không gọi LLM/API, không có held-out độc lập. Cần nhãn người mới, thêm trường hợp khó và bối cảnh ticket/ledger để kiểm tra ngoại suy. H-081 cho thấy nhãn người cũng có thể sai; ma trận hiện tại tính nguyên nhãn gốc để so đúng mốc bài lab.

@@ -66,3 +66,37 @@ def test_lab9_m7_stricter_spec_and_report_order_are_allowed():
     base, pr = clean(), clean()
     pr["rows"].reverse()
     assert integrity_check(pr, base, spec, SPEC) == []
+
+
+@pytest.mark.parametrize("use_base_spec", [False, True])
+def test_lab9_m7_deleted_pass_k_cannot_hide_forged_reliability(use_base_spec):
+    spec = copy.deepcopy(SPEC)
+    spec["pass_k"] = [1, 2]
+    spec["metrics"].append({"id": "pass_hat_2", "kind": "capability",
+                            "blocking": True, "threshold": {"min": 0.8}})
+    base, pr = clean(), clean()
+    base["metrics"]["pass_hat_2"] = 1.0
+    pr["rows"][0]["pass_rate"] = False
+    pr["metrics"] = {"pass_rate": 0.875, "pass_hat_2": 1.0}  # actual pass^2 is 3/4
+    altered = copy.deepcopy(spec)
+    altered["pass_k"] = []
+    issues = integrity_check(pr, base, altered, spec if use_base_spec else None)
+    assert any("aggregate pass_hat_2 disagrees" in issue for issue in issues)
+    if use_base_spec:
+        assert any("ratchet: removed pass_k" in issue for issue in issues)
+
+
+def test_lab9_m7_undeclared_reported_reliability_is_still_verified():
+    base, pr = clean(), clean()
+    pr["rows"][0]["pass_rate"] = False
+    pr["metrics"] = {"pass_rate": 0.875, "pass_hat_2": 1.0}
+    assert any("aggregate pass_hat_2 disagrees" in issue for issue in integrity_check(pr, base, SPEC))
+    pr["metrics"]["pass_hat_2"] = 0.75
+    assert integrity_check(pr, base, SPEC) == []
+
+
+@pytest.mark.parametrize("values", [None, [0], [-1], [True], [1, 1], ["5"]])
+def test_lab9_m7_invalid_pass_k_configuration_is_rejected(values):
+    spec = {**copy.deepcopy(SPEC), "pass_k": values}
+    base = clean()
+    assert any("pass_k" in issue for issue in integrity_check(base, base, spec))

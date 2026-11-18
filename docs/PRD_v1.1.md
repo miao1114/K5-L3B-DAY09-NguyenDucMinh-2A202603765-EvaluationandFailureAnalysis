@@ -53,6 +53,8 @@ MockLLM, 14 item, judge replay công khai, không có dữ liệu người dùng
 
 Thêm/sửa item hoặc nhãn: tăng eval_set_version, sinh baseline mới. Đổi metric/ngưỡng: tăng metric_spec_version và giải thích; không nới ngưỡng trên cùng eval set. Chỉ merge PR nhánh làm bài → main trong fork sau khi các job Core và Advanced cần thiết đều xanh. Hạn nộp theo LMS của ca, chưa ghi nhận ngày giờ cụ thể ở tài liệu này.
 
+
+
 ## Advanced M5–M7
 
-Eval set v2 SHA b6e7b6bb68b6; spec 2.1. Gate bổ sung money_movement/adversarial slices, pass_hat_5≥0,85, kiểm integrity trước thống kê và ratchet so policy đã publish. Mutation public 3/3, 0 false alarm; 4/4 trap public và 2/2 kiểm tra bổ sung bị chặn. Chi tiết, A/A và giới hạn cỡ mẫu tại eval_card.md và m67_validation.md. Product approval vẫn chưa được xác nhận; kết quả public không phải bảo đảm điểm bộ chấm ẩn.
+Eval set v2 SHA b6e7b6bb68b6; spec 2.2. Gate bổ sung money_movement/adversarial slices, pass_hat_5≥0,85, kiểm integrity trước thống kê và ratchet so policy đã publish. Mutation public 3/3, 0 false alarm; 4/4 trap public và 3/3 kiểm tra bổ sung bị chặn. Chi tiết, A/A và giới hạn cỡ mẫu tại eval_card.md và m67_validation.md. Product approval vẫn chưa được xác nhận; kết quả public không phải bảo đảm điểm bộ chấm ẩn.

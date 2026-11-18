@@ -2,7 +2,7 @@
 
 Sinh bằng `python -m scripts.verify_m67` từ src/.
 
-Baseline `E-swarm-20261118-b6e7`, eval set SHA `b6e7b6bb68b6`, spec 2.1.
+Baseline `E-swarm-20261118-b6e7`, eval set SHA `b6e7b6bb68b6`, spec 2.2.
 
 ## M6
 
@@ -19,7 +19,7 @@ Với LLM thật, decoding, hạ tầng và judge có thể gây dải nhiễu >
 | fixed | merge | none |
 | honest_refactor | merge | none |
 | seeded_regression | block | refund_amount_correct, pass_rate, pass_hat_5, reply_amount_correct, proposal_amount_correct, slice:money_movement/pass_rate, slice:adversarial/pass_rate, slice:denial/pass_rate |
-| slice_regression | block | slice:money_movement/pass_rate |
+| slice_regression | block | proposal_amount_correct, slice:money_movement/pass_rate |
 | flaky_regression | block | pass_rate, pass_hat_5, proposal_amount_correct, slice:money_movement/pass_rate |
 
 Mutation score 3/3; false alarm 0/2. Baseline tự so chính nó qua gate. Quiet fact probe không phát override (db_fact_kept=1) vẫn bị chặn qua outcome/proposal; không sửa các variant được cung cấp.
@@ -86,6 +86,13 @@ Kiểm tra cả PR và baseline: đủ tích item×seed, không trùng, không t
 
 ```text
   INTEGRITY PR: evaluator_failures must be an empty list
+```
+
+### deleted_pass_k_forged_reliability: exit 1 — INTEGRITY
+
+```text
+  INTEGRITY ratchet: removed pass_k estimates
+  INTEGRITY PR: aggregate pass_hat_5 disagrees with rows
 ```
 
 ## Tái lập

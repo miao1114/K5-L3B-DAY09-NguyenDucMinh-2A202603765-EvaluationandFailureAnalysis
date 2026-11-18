@@ -1,6 +1,6 @@
 # Lab 9 metric spec v2 (M5-M7). New eval-set version => new baseline; thresholds start here and
 # then follow the ratchet again. v2 adds slices, pass^k, and the adversarial pack.
-metric_spec_version: "2.1"
+metric_spec_version: "2.2"
 eval_set_version: v2
 eval_set: data/eval/eval_set_v2.jsonl
 labels: data/eval/labels_v2.json
@@ -23,9 +23,8 @@ metrics:
   - {id: reply_amount_correct,   kind: capability, level: trajectory, grader: code, blocking: true,
      threshold: {min: 1.0, no_significant_drop: true}}
   - {id: proposal_amount_correct, kind: capability, level: step, grader: code, blocking: true,
-     # First v2 baseline: align gross-proposal and ledger floors on the enlarged set.
-     # v1 is unchanged. Localized failures are additionally constrained by slices below.
-     threshold: {min: 0.90, no_significant_drop: true}}
+     # Restore the original 0.95 guard: do not relax it to isolate a slice demonstration.
+     threshold: {min: 0.95, no_significant_drop: true}}
 slices:
   - {name: money_movement, metric: pass_rate, min: 0.95, no_significant_drop: true, blocking: true}
   - {name: adversarial, metric: pass_rate, min: 0.90, no_significant_drop: true, blocking: true}

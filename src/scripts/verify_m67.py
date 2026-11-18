@@ -80,6 +80,14 @@ def main() -> None:
         if blocked_ids != ["integrity"]:
             raise AssertionError(f"extra trap was not rejected: {name}")
         extra_results.append({"name": name, "exit_code": 1, "lines": lines})
+    altered = copy.deepcopy(spec)
+    altered["pass_k"] = []
+    forged = copy.deepcopy(base)
+    forged["metrics"]["pass_hat_5"] = 1.0
+    blocked_ids, lines = gate.check(forged, base, altered, spec)
+    if blocked_ids != ["integrity"] or not any("aggregate pass_hat_5 disagrees" in line for line in lines):
+        raise AssertionError("deleted pass_k bypass was not independently rejected")
+    extra_results.append({"name": "deleted_pass_k_forged_reliability", "exit_code": 1, "lines": lines})
     evidence = {"baseline_run_id": base["run_id"], "eval_set_sha": base["manifest"]["eval_set_sha"],
                 "metric_spec_version": spec["metric_spec_version"],
                 "aa": {"reference_seeds": base["manifest"]["seeds"], "alternate_seeds": alternate["manifest"]["seeds"],
@@ -107,7 +115,7 @@ def main() -> None:
               "python -m scripts.verify_m67", "```", "",
               "Giới hạn: đây là vector public và các kiểm tra bổ sung tự xây, không phải bộ chấm ẩn. Gate không xác thực chữ ký/nguồn gốc trace; cần baseline và code grader do CI/reviewer tin cậy. --base-spec phải lấy từ nhánh gốc được bảo vệ, không tin một file tùy ý do PR đưa vào. Không khẳng định điểm rubric trước khi giảng viên chạy bộ ẩn."]
     Path("../docs/m67_validation.md").write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
-    print(f"M6/M7 PASS: A/A delta=0; mutation 3/3, false alarms=0; traps={len(public_traps)}/4; extra={len(extra_results)}/2", flush=True)
+    print(f"M6/M7 PASS: A/A delta=0; mutation 3/3, false alarms=0; traps={len(public_traps)}/4; extra={len(extra_results)}/{len(extra_results)}", flush=True)
 
 
 if __name__ == "__main__":
