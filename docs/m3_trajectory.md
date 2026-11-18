@@ -1,4 +1,4 @@
-# Trajectory assertions — M3
+﻿# Trajectory assertions — M3
 
 ## Grader và metric
 
@@ -20,13 +20,13 @@ Hai metric mới đã đăng ký trong GRADERS, thêm vào metric_spec.yaml và 
 
 Không dùng pass_rate để giải thích chính nó. Approval_bypass=0 trên seeded_regression là đúng: host vẫn bảo vệ approval; báo resolved sai hoặc proposal sai không đồng nghĩa có chuyển tiền trái phép.
 
-Các report sinh bằng lab9.eval, không sửa tay; cùng eval set SHA `df2e03dfe29b`, 14 item × seeds 11,22,33,44,55, MockLLM.
+Các report sinh bằng lab9.eval, không sửa tay; cùng eval set SHA `4d100783aa8e`, 14 item × seeds 11,22,33,44,55, MockLLM.
 
 | Shape | Run ID | pass_rate | refund_amount_correct | reply_amount_correct | proposal_amount_correct | Evaluator failures |
 |---|---|---|---|---|---|---|
-| fixed | E-fixed-20261118-df2e | 1,0000 | 1,0000 | 1,0000 | 1,0000 | 0 |
-| seeded_regression | E-seeded_regression-20261118-df2e | 0,7143 | 0,8571 | 0,7857 | 0,7857 | 0 |
-| m3_misreport | E-m3_misreport-20261118-df2e | 1,0000 | 1,0000 | 0,8571 | 1,0000 | 0 |
+| fixed | E-fixed-20261118-4d10 | 1,0000 | 1,0000 | 1,0000 | 1,0000 | 0 |
+| seeded_regression | E-seeded_regression-20261118-4d10 | 0,7143 | 0,8571 | 0,7857 | 0,7857 | 0 |
+| m3_misreport | E-m3_misreport-20261118-4d10 | 1,0000 | 1,0000 | 0,8571 | 1,0000 | 0 |
 
 FM-08 được cô lập bằng công tắc misreport có sẵn, chỉ đăng ký shape trong bộ nhớ. 10/70 trial có reply sai (C-008 và C-014 × 5 seed) bị metric mới phát hiện dù Lab8 và ledger grader đều PASS.
 

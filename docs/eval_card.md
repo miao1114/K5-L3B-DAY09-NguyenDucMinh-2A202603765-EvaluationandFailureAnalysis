@@ -6,12 +6,12 @@ Sinh từ report/spec bằng `python -m scripts.build_core_docs` tại src/; kh�
 
 Cùng commit thay đổi mã nguồn đi kèm tài liệu; tra bằng `git log -1 --format=%H -- src/lab9/stats.py src/lab9/graders.py`.
 
-Eval set v1, SHA `df2e03dfe29b`, 14 item × 5 seed [11, 22, 33, 44, 55], nhãn tách riêng tại labels_v1.json; nguồn lab8_public. Metric spec 1.0; runtime Python 3.14.10, MockLLM.
+Eval set v1, SHA `4d100783aa8e`, 14 item × 5 seed [11, 22, 33, 44, 55], nhãn tách riêng tại labels_v1.json; nguồn lab8_public. Metric spec 1.0; runtime Python 3.14.10, MockLLM.
 
-- baseline: `E-swarm-20261118-df2e`
-- swarm: `E-swarm-20261118-df2e`
-- fixed: `E-fixed-20261118-df2e`
-- seeded_regression: `E-seeded_regression-20261118-df2e`
+- baseline: `E-swarm-20261118-4d10`
+- swarm: `E-swarm-20261118-4d10`
+- fixed: `E-fixed-20261118-4d10`
+- seeded_regression: `E-seeded_regression-20261118-4d10`
 
 ## Metric và ngưỡng
 

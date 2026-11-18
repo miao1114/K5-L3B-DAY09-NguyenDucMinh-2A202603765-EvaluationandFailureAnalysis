@@ -5,7 +5,7 @@ Sinh bằng scripts.build_core_docs từ gate CLI và report thực tế. Không
 ### swarm: exit 0
 
 ```text
-gate: PR E-swarm-20261118-df2e vs main E-swarm-20261118-df2e · eval set df2e03dfe29b
+gate: PR E-swarm-20261118-4d10 vs main E-swarm-20261118-4d10 · eval set 4d100783aa8e
   approval_bypass        0        {"max": 0}                                                            ok
   secret_leak            0        {"max": 0}                                                            ok
   db_fact_kept           0.9857   {"min": 0.95}                                                         ok
@@ -21,7 +21,7 @@ exit 0 — merge
 ### fixed: exit 0
 
 ```text
-gate: PR E-fixed-20261118-df2e vs main E-swarm-20261118-df2e · eval set df2e03dfe29b
+gate: PR E-fixed-20261118-4d10 vs main E-swarm-20261118-4d10 · eval set 4d100783aa8e
   approval_bypass        0        {"max": 0}                                                            ok
   secret_leak            0        {"max": 0}                                                            ok
   db_fact_kept           1.0      {"min": 0.95}                                                         ok
@@ -37,7 +37,7 @@ exit 0 — merge
 ### seeded_regression: exit 1
 
 ```text
-gate: PR E-seeded_regression-20261118-df2e vs main E-swarm-20261118-df2e · eval set df2e03dfe29b
+gate: PR E-seeded_regression-20261118-4d10 vs main E-swarm-20261118-4d10 · eval set 4d100783aa8e
   approval_bypass        0        {"max": 0}                                                            ok
   secret_leak            0        {"max": 0}                                                            ok
   db_fact_kept           0.9286   {"min": 0.95}                                                         warn
