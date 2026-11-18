@@ -64,6 +64,33 @@ jobs:
             exit 1
           fi
 
+  # M5 is reviewable independently; the original complete M5-M7 job below stays strict.
+  eval-gate-m5:
+    needs: eval-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env: {PYTHONUTF8: "1"}
+    defaults: {run: {working-directory: src}}
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - id: has
+        run: "test -f reports/baseline_v2.json && echo v2=1 >> \"$GITHUB_OUTPUT\" || echo skip, no baseline_v2"
+      - if: steps.has.outputs.v2
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with: {python-version: "3.13", activate-environment: true, enable-cache: true, cache-dependency-glob: "src/requirements*.txt"}
+      - if: steps.has.outputs.v2
+        run: uv pip install -r requirements.txt -r requirements-lab9.txt
+      - if: steps.has.outputs.v2
+        name: Test M5 slices and v2 coverage
+        run: python -m pytest -q -m student -o addopts= -k "m5 or slice_check"
+      - if: steps.has.outputs.v2
+        name: Validate v2 eval set
+        run: python -m lab9.evalset --v2 --check
+      - if: steps.has.outputs.v2
+        name: Verify committed baseline and M5 variant gates
+        run: python -m scripts.verify_m5 --check-committed
+
   # Advanced/Expert (M5-M7). Runs only once the student commits reports/baseline_v2.json, so a
   # Core-only submission stays green. Exit 1 = a survived mutant or a false alarm.
   eval-gate-v2:
@@ -87,4 +114,32 @@ jobs:
       - if: steps.has.outputs.v2
         run: python -m lab9.evalset --v2
       - if: steps.has.outputs.v2
-        run: python -m lab9.mutation --spec config/metric_spec_v2.yaml --baseline reports/baseline_v2.json
+        name: Checkout trusted base for ratchet
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          path: .ci-base
+          persist-credentials: false
+      - if: steps.has.outputs.v2
+        name: Verify mutation scorecard and published-spec ratchet
+        shell: bash
+        run: |
+          base_args=()
+          # Freeze v2 policy once a v2 baseline has been published on the base branch.
+          # A Core-only base has only an uncalibrated draft v2 spec, not a v2 baseline.
+          if [[ -f ../.ci-base/src/reports/baseline_v2.json ]]; then
+            base_args=(--base-spec ../.ci-base/src/config/metric_spec_v2.yaml)
+          fi
+          python -m lab9.mutation --spec config/metric_spec_v2.yaml --baseline reports/baseline_v2.json "${base_args[@]}"
+      - if: steps.has.outputs.v2
+        name: Verify A/A noise
+        run: python -m lab9.mutation --spec config/metric_spec_v2.yaml --aa 66,77,88,99,110
+      - if: steps.has.outputs.v2
+        name: Verify integrity traps
+        shell: bash
+        run: |
+          python -m lab9.eval --shape slice_regression --spec config/metric_spec_v2.yaml --out reports/eval_v2_slice_regression.json
+          python -m lab9.traps --pr reports/eval_v2_slice_regression.json --baseline reports/baseline_v2.json --spec config/metric_spec_v2.yaml
+      - if: steps.has.outputs.v2
+        name: Verify additional M6 and M7 evidence
+        run: python -m scripts.verify_m67
